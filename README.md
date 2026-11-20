@@ -36,8 +36,8 @@ An editor-native autonomous AI coding agent extension for Visual Studio Code, po
 
 ### 2. Install Extension Dependencies & Compile
 ```bash
-git clone <your-repo-url>
-cd trueforge-vscode-extension
+git clone https://github.com/zamaan-ai/TrueForge-Coding-Agent-VS-Code-.git
+cd TrueForge-Coding-Agent-VS-Code-
 npm install
 npm run compile
 ```
