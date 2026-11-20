@@ -1,0 +1,25 @@
+# TrueForge Local Configuration Example
+# Copy this file to config.yaml and fill in your keys. NEVER commit config.yaml!
+
+server:
+  port: 8790
+  host: 127.0.0.1
+  storage: sqlite
+  dbPath: ~/.trueforge/trueforge.db
+
+models:
+  primary:
+    provider: openai-compatible # Any OpenAI-compatible provider, Groq, OpenRouter, etc.
+    model: gpt-4o-mini
+    baseUrl: https://api.openai.com/v1
+    apiKey: YOUR_API_KEY_HERE
+
+  fallback:
+    provider: openai-compatible # Local Ollama or backup gateway for Resilience (Task C)
+    model: llama-3.3-70b-instruct
+    baseUrl: http://127.0.0.1:11434/v1
+    apiKey: ollama
+
+contextBudget:
+  maxTokens: 8000
+  compactionTokens: 12000

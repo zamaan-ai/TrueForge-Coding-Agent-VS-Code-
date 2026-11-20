@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+.vscode-test/
+
+# Build artifacts
+out/
+dist/
+
+# Logs & temp files
+*.log
+.DS_Store
+sandbox_flask/
+
+# Local credentials & configs
+trueforge/config.yaml

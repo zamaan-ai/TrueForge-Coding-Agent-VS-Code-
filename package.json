@@ -1,0 +1,100 @@
+{
+  "name": "trueforge-coding-agent",
+  "displayName": "TrueForge Coding Agent",
+  "description": "Editor-native AI coding agent powered by TrueForge with context assembly, hunk-level diffs, and automatic resilience.",
+  "version": "1.0.0",
+  "publisher": "forge-team",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Programming Languages",
+    "Education"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "trueforge-explorer",
+          "title": "TrueForge Agent",
+          "icon": "$(sparkle)"
+        }
+      ]
+    },
+    "views": {
+      "trueforge-explorer": [
+        {
+          "type": "webview",
+          "id": "trueforge.agentPanel",
+          "name": "TrueForge Agent Mode"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "trueforge.inlineEdit",
+        "title": "TrueForge: Inline Edit",
+        "category": "TrueForge"
+      },
+      {
+        "command": "trueforge.openPanel",
+        "title": "TrueForge: Open Agent Panel",
+        "category": "TrueForge"
+      },
+      {
+        "command": "trueforge.acceptHunk",
+        "title": "TrueForge: Accept Diff Hunk",
+        "category": "TrueForge"
+      },
+      {
+        "command": "trueforge.rejectHunk",
+        "title": "TrueForge: Reject Diff Hunk",
+        "category": "TrueForge"
+      },
+      {
+        "command": "trueforge.undoLastEdit",
+        "title": "TrueForge: Undo Applied Change",
+        "category": "TrueForge"
+      },
+      {
+        "command": "trueforge.cancelRun",
+        "title": "TrueForge: Cancel Current Run",
+        "category": "TrueForge"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "trueforge.inlineEdit",
+        "key": "ctrl+shift+i",
+        "mac": "cmd+shift+i",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "trueforge.undoLastEdit",
+        "key": "ctrl+shift+u",
+        "mac": "cmd+shift+u"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build": "tsc -p ./",
+    "test": "node run_e2e_verification.js"
+  },
+  "dependencies": {
+    "diff": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.9",
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.3"
+  }
+}

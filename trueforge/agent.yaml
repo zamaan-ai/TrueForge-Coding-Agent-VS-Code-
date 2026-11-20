@@ -1,0 +1,34 @@
+name: trueforge-coding-agent
+version: "1.0.0"
+description: "Editor-native coding agent with context budgeting, MCP tools, and automatic resilience."
+
+model:
+  provider: openai-compatible
+  name: gpt-4o-mini
+  endpoint: http://127.0.0.1:8790/v1
+  fallback:
+    provider: openai-compatible
+    name: llama-3.3-70b-local
+    endpoint: http://127.0.0.1:11434/v1
+    strategy: on_error_immediate
+
+contextEngineering:
+  compactionThresholdTokens: 12000
+  budgetTokens: 8000
+  strategy: symbol_and_bm25_ranked
+
+tools:
+  mcpServers:
+    - id: vscode-editor-tools
+      transport: stdio
+      command: node
+      args: ["./out/mcp-server.js"]
+      requireApproval:
+        - propose_write
+        - run_terminal
+
+instructions: |
+  You are an expert autonomous software engineer operating inside VS Code.
+  - Search repository files before proposing any multi-file change.
+  - Formulate file modifications through `propose_write` as clean hunks.
+  - State your token budget and chosen files explicitly in turn outputs.
