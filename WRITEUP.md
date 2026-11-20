@@ -1,7 +1,7 @@
 # TrueFoundry Forge-a-thon — Round 1 Technical Report
 
 ## 1. Team
-- **Team Name**: ForgeFoundry Vanguard
+- **Team Name**: Vzebee
 - **Team Members**:
   - Lead Systems Engineer (`@forge-lead`)
   - Full-Stack Extension Engineer (`@forge-agent-dev`)

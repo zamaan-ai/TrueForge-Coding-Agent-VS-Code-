@@ -3,7 +3,7 @@
   "displayName": "TrueForge Coding Agent",
   "description": "Editor-native AI coding agent powered by TrueForge with context assembly, hunk-level diffs, and automatic resilience.",
   "version": "1.0.0",
-  "publisher": "forge-team",
+  "publisher": "vzebee",
   "engines": {
     "vscode": "^1.85.0"
   },

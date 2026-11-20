@@ -76,7 +76,7 @@ def generate_pdf(output_path):
 
     # 1. Team
     story.append(Paragraph("1. Team", h2_style))
-    story.append(Paragraph("&bull; <b>Team Name</b>: ForgeFoundry Vanguard", bullet_style))
+    story.append(Paragraph("&bull; <b>Team Name</b>: Vzebee", bullet_style))
     story.append(Paragraph("&bull; <b>Members</b>: Lead Systems Engineer (@forge-lead), Full-Stack Extension Engineer (@forge-agent-dev)", bullet_style))
     story.append(Paragraph("&bull; <b>Institution</b>: Indian Institute of Technology Bombay", bullet_style))
     story.append(Paragraph("&bull; <b>GitHub Handles</b>: @forge-lead, @forge-agent-dev", bullet_style))
