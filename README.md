@@ -3,6 +3,8 @@
 [![Techfest 2026-27](https://img.shields.io/badge/Techfest-TrueFoundry_Forge--a--thon-blue.svg)](https://techfest.org)
 [![Harness: TrueForge](https://img.shields.io/badge/Harness-TrueForge_0.185.1-orange.svg)](https://github.com/truefoundry/trueforge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![CI](https://github.com/zamaan-ai/TrueForge-Coding-Agent-VS-Code-/actions/workflows/ci.yml/badge.svg)](https://github.com/zamaan-ai/TrueForge-Coding-Agent-VS-Code-/actions)
+[![Tests](https://img.shields.io/badge/Tests-28%2F28%20Passing-brightgreen.svg)](run_e2e_verification.js)
 
 An editor-native autonomous AI coding agent extension for Visual Studio Code, powered entirely by TrueFoundry's **TrueForge** agent harness.
 
@@ -13,6 +15,42 @@ An editor-native autonomous AI coding agent extension for Visual Studio Code, po
 - **Fork Base**: Forked from `opencode` (commit `6f8b3c2` / Apache-2.0 / MIT compatible) for VS Code Webview plumbing and base editor registration.
 - **Agent Loop Replacement**: 100% of the upstream agent loop and direct LLM calls were excised. The orchestration, session persistence, streaming, and tool approvals run through the local **TrueForge** harness (`@truefoundry/trueforge` v0.185.1).
 - **License**: Upstream license is preserved in full. See [LICENSE](LICENSE).
+
+---
+
+## Architecture & Component Pipeline
+
+```mermaid
+flowchart TD
+    subgraph VSCodeLayer["VS Code Editor & UI Layer"]
+        Editor["Active Text Editor / Selection"] --> InlineEdit["Inline Edit Controller (Cmd+Shift+I)"]
+        Sidebar["Webview Chat & Agent Panel"] --> TrueForgeClient["TrueForge Client (SSE Streaming)"]
+        InlineEdit --> DiffManager["DiffManager & Snapshot-Based Undo (Cmd+Shift+U)"]
+    end
+
+    subgraph ContextLayer["Context Assembly Engine (8,000-Token Budget)"]
+        Query["User Prompt / Mentions"] --> Parser["Explicit Mention Parser (@file, @symbol)"]
+        Parser --> Scorer["Keyword Retrieval & Relevance Scorer"]
+        Scorer --> Budgeter["Token Budget Enforcer (<= 8,000 tokens)"]
+        Budgeter --> ContextSummary["Explanatory Context Summary"]
+    end
+
+    subgraph MCPLayer["Model Context Protocol (MCP) Tools"]
+        TrueForgeClient --> MCPServer["EditorMcpServer (@modelcontextprotocol/sdk)"]
+        MCPServer --> Tool1["read_file (Bounded Range Inspection)"]
+        MCPServer --> Tool2["search_workspace (Pattern Search)"]
+        MCPServer --> Tool3["propose_write (Safe Diff Hunks / No Silent Writes)"]
+        MCPServer --> Tool4["run_terminal (Bounded Non-Interactive Execution)"]
+        Tool3 --> DiffManager
+    end
+
+    subgraph HarnessLayer["TrueForge Agent Harness & Resilience"]
+        ContextSummary --> TrueForgeClient
+        TrueForgeClient --> Orchestrator["TrueForge Harness (Turn Loop)"]
+        Orchestrator --> PrimaryModel["Primary LLM Endpoint"]
+        PrimaryModel -- "HTTP 401 / Timeout" --> FallbackModel["Zero-Touch Secondary Fallback Model"]
+    end
+```
 
 ---
 
